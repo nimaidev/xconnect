@@ -6,22 +6,6 @@ import (
 	"log"
 )
 
-type BACnetPacket struct {
-	BVLCType      byte
-	BVLCFunc      byte
-	BVLCLength    uint16
-	NPDUVersion   byte
-	NPDUControl   byte
-	DNET          uint16
-	DADR          []byte
-	SNET          uint16
-	SADR          []byte
-	HopCount      byte
-	APDU          []byte
-	PDUType       byte
-	ServiceChoice byte
-}
-
 func ParseAPDUPackets(buf []byte) (*BACnetPacket, error) {
 
 	// BVLC header (first 4 bytes)
