@@ -42,9 +42,18 @@ func main() {
 func handleUDPConnection(packet *BACnetPacket, conn *net.UDPConn, addr *net.UDPAddr) {
 	log.Printf("Packet Type: %#x | Request Type: %#x \n",
 		packet.ServiceChoice, packet.PDUType)
-	if packet.PDUType == SERV_UN_CONFIRM_REQ && packet.ServiceChoice == CNCTX_CMD_WHO_IS {
-		log.Println("Got Who-Is Request")
-		iamPacket := PrepareIAmResponse(1223, 12)
-		conn.WriteToUDP(iamPacket, addr)
+	// Handle if Request is Un-confirmed service request
+	if packet.PDUType == SERV_UN_CONFIRM_REQ {
+		// Handle if Service Choice is WHO_IS
+		if packet.ServiceChoice == CNCTX_CMD_WHO_IS {
+			log.Println("Got Who-Is Request")
+			iamPacket := PrepareIAmResponse(1223, 12)
+			conn.WriteToUDP(iamPacket, addr)
+		}
 	}
+
+	if packet.PDUType == SERV_CONFIRM_REQ {
+		log.Println("Got one Confirmed Req")
+	}
+
 }
