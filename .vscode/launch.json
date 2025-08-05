@@ -1,0 +1,47 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug BACnet Server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "env": {},
+            "args": [],
+            "showLog": true,
+            "trace": "verbose",
+            "logOutput": "rpc",
+            "buildFlags": "",
+            "port": 0,
+            "host": "127.0.0.1",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "",
+            "postDebugTask": ""
+        },
+        {
+            "name": "Debug BACnet Server (Restart)",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "env": {},
+            "args": [],
+            "showLog": false,
+            "trace": "verbose",
+            "logOutput": "rpc",
+            "buildFlags": "",
+            "port": 0,
+            "host": "127.0.0.1",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "",
+            "postDebugTask": ""
+        }
+    ]
+}

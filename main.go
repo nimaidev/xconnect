@@ -30,30 +30,36 @@ func main() {
 
 		fmt.Printf("\nPacket from %s (%d bytes):\n", clientAddr, n)
 		//remove the zero'd buffer
-
-		if buf[0] == 0x81 {
-			fmt.Println("Bacnet/IP protocol")
+		packet, err := ParseAPDUPackets(buf)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Packet Type: %#x | Request Type: %#x \n", packet.ServiceChoice, packet.PDUType)
+		if packet.PDUType == 0x01 && packet.ServiceChoice == 0x08 {
+			log.Println("Got Who-Is Request")
 		}
 		// validate the packet
 		// BACnet length field is 2 bytes (big-endian) at buf[2:4]
-		length := binary.BigEndian.Uint16(buf[2:4])
-		log.Println("Size of the request: ", length, len(buf))
-		buf = buf[:length]
-		log.Println(buf)
+		// length := binary.BigEndian.Uint16(buf[2:4])
+		// log.Println("Size of the request: ", length, len(buf))
+		// buf = buf[:length]
+		log.Println(buf[:n])
 
-		// Get the last packet to see the request type
-		reqType := buf[length-1]
-		log.Println(reqType)
+		// // Get the last packet to see the request type
+		// reqType := buf[length-1]
+		// log.Println(reqType)
 
-		if reqType == 0x08 { //Got a who is Request
-			log.Println("Got an Who Is Broadcast")
-			//Send I-AM Response
-			packet := prepareIAmResponse(1223, 12)
-			//write the packet to the UDP
-			log.Println("Packets", packet)
-			log.Println("Sending I-am Response")
-			conn.WriteToUDP(packet, clientAddr)
-		}
+		// if reqType == 0x08 { //Got a who is Request
+		// 	log.Println("Got an Who Is Broadcast")
+		// 	//Send I-AM Response
+		// 	packet := prepareIAmResponse(1223, 12)
+		// 	//write the packet to the UDP
+		// 	log.Println("Packets", packet)
+		// 	log.Println("Sending I-am Response")
+		// 	conn.WriteToUDP(packet, clientAddr)
+		// } else {
+		// 	log.Println("Interesting")
+		// }
 	}
 }
 
